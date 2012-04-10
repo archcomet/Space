@@ -7,11 +7,12 @@
 //
 
 #import "Vehicle.h"
-#import "Contrail.h"
+#import "ContrailNode.h"
 
 @interface Ship : Vehicle {
     
-    Contrail* _contrail;
+    ContrailNode* _contrail;
+    CGPoint _contrailOffset;
 }
 
 +(Ship*) shipWithName:(NSString*)name position:(CGPoint)position rotation:(float)rotation;

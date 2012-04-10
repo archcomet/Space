@@ -11,7 +11,7 @@
 		A50D58E614D391950057A96A /* PolyLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = A50D58E514D391950057A96A /* PolyLine.mm */; };
 		A53AB0841512D7CB005CE3A2 /* Entities.plist in Resources */ = {isa = PBXBuildFile; fileRef = A53AB0831512D7CB005CE3A2 /* Entities.plist */; };
 		A53AB08715131764005CE3A2 /* InputLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A53AB08615131763005CE3A2 /* InputLayer.mm */; };
-		A53AB0AA151782B2005CE3A2 /* Contrail.mm in Sources */ = {isa = PBXBuildFile; fileRef = A53AB0A9151782B2005CE3A2 /* Contrail.mm */; };
+		A53AB0AA151782B2005CE3A2 /* ContrailNode.mm in Sources */ = {isa = PBXBuildFile; fileRef = A53AB0A9151782B2005CE3A2 /* ContrailNode.mm */; };
 		A53CCB351520BF8600C0DDA7 /* Vehicle.mm in Sources */ = {isa = PBXBuildFile; fileRef = A53CCB341520BF8600C0DDA7 /* Vehicle.mm */; };
 		A53CCB3C1520C2AF00C0DDA7 /* EntityDef.m in Sources */ = {isa = PBXBuildFile; fileRef = A53CCB3B1520C2AF00C0DDA7 /* EntityDef.m */; };
 		A53CCB44152161A400C0DDA7 /* Ship.mm in Sources */ = {isa = PBXBuildFile; fileRef = A53CCB43152161A400C0DDA7 /* Ship.mm */; };
@@ -195,8 +195,8 @@
 		A53AB08515131763005CE3A2 /* InputLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputLayer.h; sourceTree = "<group>"; };
 		A53AB08615131763005CE3A2 /* InputLayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = InputLayer.mm; sourceTree = "<group>"; };
 		A53AB09015165D57005CE3A2 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
-		A53AB0A8151782B1005CE3A2 /* Contrail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Contrail.h; sourceTree = "<group>"; };
-		A53AB0A9151782B2005CE3A2 /* Contrail.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Contrail.mm; sourceTree = "<group>"; };
+		A53AB0A8151782B1005CE3A2 /* ContrailNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContrailNode.h; sourceTree = "<group>"; };
+		A53AB0A9151782B2005CE3A2 /* ContrailNode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ContrailNode.mm; sourceTree = "<group>"; };
 		A53CCB331520BF8600C0DDA7 /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
 		A53CCB341520BF8600C0DDA7 /* Vehicle.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Vehicle.mm; sourceTree = "<group>"; };
 		A53CCB3A1520C2AF00C0DDA7 /* EntityDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityDef.h; sourceTree = "<group>"; };
@@ -566,12 +566,12 @@
 		A53AB0911516622D005CE3A2 /* Scenes and Layers */ = {
 			isa = PBXGroup;
 			children = (
+				A590036614E2229A00CE265D /* GameScene.h */,
+				A590036714E2229A00CE265D /* GameScene.mm */,
 				A58D8939150EE25100377732 /* EntityLayer.h */,
 				A58D893A150EE25200377732 /* EntityLayer.mm */,
 				A53AB08515131763005CE3A2 /* InputLayer.h */,
 				A53AB08615131763005CE3A2 /* InputLayer.mm */,
-				A590036614E2229A00CE265D /* GameScene.h */,
-				A590036714E2229A00CE265D /* GameScene.mm */,
 				A588BF5D15280CA600A3AE2E /* BackgroundLayer.h */,
 				A588BF5E15280CA600A3AE2E /* BackgroundLayer.mm */,
 			);
@@ -1148,8 +1148,8 @@
 				A50D58E214D264F80057A96A /* Line.mm */,
 				A50D58E414D391950057A96A /* PolyLine.h */,
 				A50D58E514D391950057A96A /* PolyLine.mm */,
-				A53AB0A8151782B1005CE3A2 /* Contrail.h */,
-				A53AB0A9151782B2005CE3A2 /* Contrail.mm */,
+				A53AB0A8151782B1005CE3A2 /* ContrailNode.h */,
+				A53AB0A9151782B2005CE3A2 /* ContrailNode.mm */,
 				A588BF521527CD8D00A3AE2E /* BackgroundNode.h */,
 				A588BF531527CD8D00A3AE2E /* BackgroundNode.mm */,
 			);
@@ -1375,7 +1375,7 @@
 				A58D891A15089E0200377732 /* Entity.mm in Sources */,
 				A58D893B150EE25300377732 /* EntityLayer.mm in Sources */,
 				A53AB08715131764005CE3A2 /* InputLayer.mm in Sources */,
-				A53AB0AA151782B2005CE3A2 /* Contrail.mm in Sources */,
+				A53AB0AA151782B2005CE3A2 /* ContrailNode.mm in Sources */,
 				A53CCB351520BF8600C0DDA7 /* Vehicle.mm in Sources */,
 				A53CCB3C1520C2AF00C0DDA7 /* EntityDef.m in Sources */,
 				A53CCB44152161A400C0DDA7 /* Ship.mm in Sources */,

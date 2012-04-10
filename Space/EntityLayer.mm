@@ -7,6 +7,7 @@
 //
 
 #import "EntityLayer.h"
+#import "GameScene.h"
 
 @implementation EntityLayer
 
@@ -60,6 +61,16 @@
 -(void)removeEntityByTag:(NSInteger)tag cleanup:(BOOL)cleanup
 {
     [_spriteBatch removeChildByTag:tag cleanup:cleanup];
+}
+
+-(void) visit
+{
+    CGPoint position = [[GameScene sharedGameScene] cameraPosition];
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    CGPoint centerOfScreen = ccp(winSize.width * 0.5, winSize.height * 0.5);
+    self.position = ccpSub(centerOfScreen, position);
+    
+    [super visit];
 }
 
 @end

@@ -88,13 +88,11 @@
 
 -(void) beginContactWithEntity:(Entity*)entity manifold:(b2Manifold*)manifold
 {
-    
 }
 
 
 -(void) endContactWithEntity:(Entity*)entity manifold:(b2Manifold*)manifold
 {
-    
 }
 
 @end

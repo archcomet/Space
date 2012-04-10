@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Box2D.h"
-#import "BackgroundNode.h"
+#import "Entity.h"
 #import "ContactListener.h"
 #import "Controller.h"
 #import "CameraController.h"
 #import "PlayerController.h"
-#import "Entity.h"
+#import "BackgroundLayer.h"
 #import "EntityLayer.h"
 #import "InputLayer.h"
 
@@ -23,11 +23,9 @@
     b2World* _world;
     ContactListener* _contactListener;
     
-    CCParticleSystemQuad* _dust;
-    BackgroundNode* _backgroundNode;
+    BackgroundLayer* _backgroundLayer;
     EntityLayer* _entityLayer;
     InputLayer* _inputLayer;
-    
 
     CCArray* _entities;
     CCArray* _controllers;
@@ -36,6 +34,7 @@
     PlayerController* _playerController;
     
     CGPoint _scenePosition;
+    CGPoint _cameraPosition;
 }
 
 +(GameScene*) sharedGameScene;
@@ -43,8 +42,9 @@
 @property (readonly, nonatomic) b2World* world;
 @property (readonly, nonatomic) EntityLayer* entityLayer;
 @property (readonly, nonatomic) PlayerController* playerController;
+@property (readwrite, nonatomic) CGPoint cameraPosition;
 
--(void) setScenePosition:(CGPoint)position;
+
 -(void) addEntity:(Entity*)entity;
 -(void) addController:(Controller*)controller;
 -(CGPoint) convertGLToWorldSpace:(CGPoint)glLocation;

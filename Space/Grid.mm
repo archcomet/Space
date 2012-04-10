@@ -28,8 +28,9 @@
 
 -(CGRect) getVisibleArea
 {        
+    CGPoint position = [[GameScene sharedGameScene] cameraPosition];
     CGSize winSize = [[CCDirector sharedDirector] winSize];
-    return CGRectMake(self.parent.position.x * -1.0, self.parent.position.y * -1.0, winSize.width, winSize.height);
+    return CGRectMake(position.x - winSize.width * 0.5, position.y - winSize.height * 0.5, winSize.width, winSize.height);
 }
 
 -(void) drawLineFrom:(ccVertex2F)p1 to:(ccVertex2F)p2

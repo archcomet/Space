@@ -21,9 +21,11 @@
 -(id) initWithName:(NSString *)name position:(CGPoint)position rotation:(float)rotation
 {
     if ((self = [super initWithName:name position:position rotation:rotation])) {
-        _contrail = [[Contrail contrailWithSegments:12 position:position] retain];
+        
+        _contrail = [[ContrailNode contrailWithVehicle:self] retain];
         _contrail.color = _entityDef.contrailColor;
         _contrail.width = _entityDef.contrailWidth;
+        _contrail.offset = ccp(-_sprite.contentSize.width * 0.4, 0.0);
     }
     return self;
 }
@@ -34,12 +36,5 @@
     [super dealloc];
 }
 
-#pragma mark Ship - Step
-
--(void) step:(ccTime) dt
-{
-    [super step:dt];
-    [_contrail updateWithPosition:_sprite.position speed:_body->GetLinearVelocity().Length()];
-}
 
 @end

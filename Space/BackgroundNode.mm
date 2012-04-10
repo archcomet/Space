@@ -86,7 +86,4 @@
         glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
 }
 
-
-
-
 @end

@@ -22,7 +22,7 @@
 
 -(void)step:(ccTime)dt
 {
-    [[GameScene sharedGameScene] setScenePosition: _trackedEntity.sprite.position];
+    [GameScene sharedGameScene].cameraPosition = _trackedEntity.sprite.position;
 }
 
 @end

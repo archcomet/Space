@@ -9,8 +9,6 @@
 #import "GameScene.h"
 #import "AIShipController.h"
 #import "Ship.h"
-#import "Grid.h"
-#import "BackgroundNode.h"
 
 @interface GameScene (Hidden)
 -(void) startScene;
@@ -25,6 +23,7 @@
 @synthesize world = _world;
 @synthesize entityLayer = _entityLayer;
 @synthesize playerController = _playerController;
+@synthesize cameraPosition = _cameraPosition;
 
 #pragma mark GameScene - Alloc, Init, and Dealloc
 
@@ -71,22 +70,13 @@
 
 -(void) createLayers
 {
+    _backgroundLayer = [[BackgroundLayer backgoundLayer] retain];
     _entityLayer = [[EntityLayer entityLayerWithFile:@"SpaceShips.png"] retain];  
     _inputLayer = [[InputLayer node] retain];
     
+    [self addChild:_backgroundLayer z:0];
     [self addChild:_entityLayer z:10];
     [self addChild:_inputLayer z:20];
-    
-    
-    Grid* grid = [Grid node];
-    grid.lineColor = ccc4(0, 225, 150, 150);
-    grid.lineSpacing = 120;
-    grid.lineWidth = 0.5;
-    [_entityLayer addChild:grid z:-2];
-     
-
-    _backgroundNode = [BackgroundNode backgroundNodeWithFile:@"Starfield3.png" position:ccp(0,0)];
-    [self addChild:_backgroundNode z:0];
 }
 
 -(void) createEntitiesAndControllers
@@ -107,10 +97,7 @@
     [self addController:_playerController];
     [self addController:aiShipController];
     
-    [self setScenePosition:player.sprite.position];
-    
-    _dust = [CCParticleSystemQuad particleWithFile:@"StarDust.plist"];
-    [self addChild:_dust z:1];    
+    [self setCameraPosition:player.sprite.position];
 }
 
 -(void) dealloc
@@ -135,26 +122,8 @@
     delete _contactListener;
     delete _world;
     
+    [self removeAllChildrenWithCleanup:true];
     [super dealloc];
-}
-
-#pragma mark GameScene - Setters
-
--(void) setScenePosition:(CGPoint)position
-{
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    CGPoint centerOfScreen = ccp(winSize.width * 0.5, winSize.height * 0.5);
-    CGPoint prevPosition = _entityLayer.position;
-    CGPoint newPosition = ccpSub(centerOfScreen, position);
-    CGPoint speed = ccpSub(newPosition, prevPosition);
-    
-    _entityLayer.position = newPosition;
-    
-    newPosition = ccp(newPosition.x / 15, newPosition.y / 15);
-    
-    [_backgroundNode setTexturePosition:newPosition];
-    _dust.gravity = ccp(speed.x * 10, speed.y * 10);
-
 }
 
 #pragma mark GameScene - Add Objects
@@ -169,7 +138,6 @@
 {
     [_controllers addObject:controller];
 }
-
 
 #pragma mark GameScene - Transforms
 
