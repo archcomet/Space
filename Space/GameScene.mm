@@ -10,6 +10,8 @@
 #import "AIShipController.h"
 #import "Ship.h"
 
+#import "TestRenderIndicatorBar.h"
+
 @interface GameScene (Hidden)
 -(void) startScene;
 -(void) createWorld;
@@ -49,6 +51,9 @@
     [self createSpriteFrameCache];
     [self createLayers];
     [self createEntitiesAndControllers];    
+    
+    TestRenderIndicatorBar* test = [TestRenderIndicatorBar node];
+    [self addChild:test z:100];
     
     [self schedule: @selector(step:)];
 }

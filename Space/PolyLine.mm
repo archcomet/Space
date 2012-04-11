@@ -14,7 +14,6 @@
 
 inline double absDbl(double value) { return (value > 0.0) ? value : -value; }
 
-
 +(PolyLine*) lineFrom:(CGPoint)startPoint to:(CGPoint)endPoint
 {
     PolyLine* line = [self node];
@@ -222,7 +221,6 @@ inline double absDbl(double value) { return (value > 0.0) ? value : -value; }
         glVertexPointer(2, GL_FLOAT, 0, capVertices);
         glColorPointer(4, GL_UNSIGNED_BYTE, 0, capColors);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
     }
 }
 

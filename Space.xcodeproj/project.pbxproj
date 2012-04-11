@@ -184,6 +184,8 @@
 		A58E2813145FCDEF00809D9C /* blocks.png in Resources */ = {isa = PBXBuildFile; fileRef = A58E2812145FCDEF00809D9C /* blocks.png */; };
 		A590036814E2229A00CE265D /* GameScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = A590036714E2229A00CE265D /* GameScene.mm */; };
 		A590037414E2408800CE265D /* Grid.mm in Sources */ = {isa = PBXBuildFile; fileRef = A590037314E2408800CE265D /* Grid.mm */; };
+		A5B237B915349A0B004CF2A8 /* IndicatorBar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A5B237B815349A0B004CF2A8 /* IndicatorBar.mm */; };
+		A5B237BE15355264004CF2A8 /* TestRenderIndicatorBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B237BD15355264004CF2A8 /* TestRenderIndicatorBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -542,6 +544,10 @@
 		A590036714E2229A00CE265D /* GameScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameScene.mm; sourceTree = "<group>"; };
 		A590037214E2408800CE265D /* Grid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Grid.h; sourceTree = "<group>"; };
 		A590037314E2408800CE265D /* Grid.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Grid.mm; sourceTree = "<group>"; };
+		A5B237B715349A0B004CF2A8 /* IndicatorBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndicatorBar.h; sourceTree = "<group>"; };
+		A5B237B815349A0B004CF2A8 /* IndicatorBar.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IndicatorBar.mm; sourceTree = "<group>"; };
+		A5B237BC15355264004CF2A8 /* TestRenderIndicatorBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestRenderIndicatorBar.h; sourceTree = "<group>"; };
+		A5B237BD15355264004CF2A8 /* TestRenderIndicatorBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRenderIndicatorBar.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -660,6 +666,7 @@
 				A53AB09215166250005CE3A2 /* Game Objects */,
 				A590037614E240D300CE265D /* GL Shapes */,
 				A53AB0911516622D005CE3A2 /* Scenes and Layers */,
+				A5B237BB15355216004CF2A8 /* Tests */,
 				A58E2641145FCDED00809D9C /* Resources */,
 				A58E2655145FCDED00809D9C /* libs */,
 			);
@@ -1152,8 +1159,19 @@
 				A53AB0A9151782B2005CE3A2 /* ContrailNode.mm */,
 				A588BF521527CD8D00A3AE2E /* BackgroundNode.h */,
 				A588BF531527CD8D00A3AE2E /* BackgroundNode.mm */,
+				A5B237B715349A0B004CF2A8 /* IndicatorBar.h */,
+				A5B237B815349A0B004CF2A8 /* IndicatorBar.mm */,
 			);
 			name = "GL Shapes";
+			sourceTree = "<group>";
+		};
+		A5B237BB15355216004CF2A8 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				A5B237BC15355264004CF2A8 /* TestRenderIndicatorBar.h */,
+				A5B237BD15355264004CF2A8 /* TestRenderIndicatorBar.m */,
+			);
+			name = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1386,6 +1404,8 @@
 				A588BF511527B72100A3AE2E /* CameraController.mm in Sources */,
 				A588BF541527CD8D00A3AE2E /* BackgroundNode.mm in Sources */,
 				A588BF5F15280CA600A3AE2E /* BackgroundLayer.mm in Sources */,
+				A5B237B915349A0B004CF2A8 /* IndicatorBar.mm in Sources */,
+				A5B237BE15355264004CF2A8 /* TestRenderIndicatorBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

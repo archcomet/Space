@@ -68,9 +68,10 @@
         offset.y = -_offset.x * sinf(rotation) + _offset.y * cosf(rotation); 
     }
 
-    // Calculate contrail point
+    // Calculate contrail emitter point
     CGPoint point = ccpAdd(position, offset);
     
+    // Determine if contrail is emitting
     bool enabled = (_vehicle.steeringBehavior != kSteeringBehaviorIdle);
     if (enabled) {
         
