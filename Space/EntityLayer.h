@@ -13,17 +13,16 @@
 @interface EntityLayer : CCLayer {
     
     CCSpriteBatchNode* _spriteBatch;
+    CGSize _winSize;
 }
 
 +(EntityLayer*) entityLayerWithFile:(NSString*)file;
 -(id)initWithFile:(NSString*)file;
 
--(void)addEntity:(Entity *)entity;
--(void)addEntity:(Entity *)entity z:(NSInteger)z;
--(void)addEntity:(Entity *)entity z:(NSInteger)z tag:(NSInteger)tag;
-
--(void)removeAllEntitiesWithCleanup:(BOOL)cleanup;
--(void)removeEntity:(Entity *)entity cleanup:(BOOL)cleanup;
--(void)removeEntityByTag:(NSInteger)tag cleanup:(BOOL)cleanup;
+-(void) addBatchSprite:(CCSprite*)sprite z:(int)z;
+-(void) addNode:(CCNode*)node z:(int)z;
+-(void) removeBatchSprite:(CCSprite*)sprite;
+-(void) removeNode:(CCNode*)node;
+-(void) updatePosition:(CGPoint)position;
 
 @end

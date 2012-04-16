@@ -28,7 +28,7 @@
 
 -(CGRect) getVisibleArea
 {        
-    CGPoint position = [[GameScene sharedGameScene] cameraPosition];
+    CGPoint position = [[GameScene sharedGameScene] cameraController].position;
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     return CGRectMake(position.x - winSize.width * 0.5, position.y - winSize.height * 0.5, winSize.width, winSize.height);
 }

@@ -11,12 +11,11 @@
 #import "Box2D.h"
 #import "Entity.h"
 #import "ContactListener.h"
-#import "Controller.h"
 #import "CameraController.h"
-#import "PlayerController.h"
 #import "BackgroundLayer.h"
 #import "EntityLayer.h"
 #import "InputLayer.h"
+#import "EntityFactory.h"
 
 @interface GameScene : CCScene {
 
@@ -27,26 +26,21 @@
     EntityLayer* _entityLayer;
     InputLayer* _inputLayer;
 
-    CCArray* _entities;
-    CCArray* _controllers;
-    
     CameraController* _cameraController;
-    PlayerController* _playerController;
     
-    CGPoint _scenePosition;
-    CGPoint _cameraPosition;
+    EntityFactory* _entityFactory;
+    CCArray* _entities;
+    Entity* _player;
 }
 
 +(GameScene*) sharedGameScene;
 
 @property (readonly, nonatomic) b2World* world;
+@property (readonly, nonatomic) Entity* player;
 @property (readonly, nonatomic) EntityLayer* entityLayer;
-@property (readonly, nonatomic) PlayerController* playerController;
-@property (readwrite, nonatomic) CGPoint cameraPosition;
+@property (readonly, nonatomic) BackgroundLayer* backgroundLayer;
+@property (readonly, nonatomic) CameraController* cameraController;
 
-
--(void) addEntity:(Entity*)entity;
--(void) addController:(Controller*)controller;
 -(CGPoint) convertGLToWorldSpace:(CGPoint)glLocation;
 
 @end

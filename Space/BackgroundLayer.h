@@ -8,18 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
-#import "BackgroundNode.h"
+#import "Background.h"
 #import "Grid.h"
 
 @interface BackgroundLayer : CCLayer {
 
-    BackgroundNode* _starField;
+    Background* _starField;
     CCParticleSystemQuad* _starDust;
     Grid* _grid;
     
     CGPoint _position;
+    CGSize _winSize;
 }
 
 +(BackgroundLayer*) backgoundLayer;
+-(void) updatePosition:(CGPoint)position;
 
 @end

@@ -34,6 +34,7 @@ typedef enum {
     ccColor4B  _boarderColor;
     ccVertex2F _boarderVertices[5];
     
+    bool _useBlendFunc;
     bool _renderBar;
     bool _renderDivider;
     bool _renderBackground;

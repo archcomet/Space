@@ -1,98 +1,135 @@
 //
-//  Entity.m
+//  Entity.mm
 //  Space
 //
-//  Created by Michael Good on 3/7/12.
-//  Copyright 2012 none. All rights reserved.
+//  Created by Michael Good on 4/12/12.
+//  Copyright (c) 2012 none. All rights reserved.
 //
 
 #import "Entity.h"
 #import "GameScene.h"
+#import "Component.h"
 
 @implementation Entity
+@synthesize state = _state;
+@synthesize position = _position;
+@synthesize rotation = _rotation;
 
-@synthesize body = _body;
-@synthesize sprite = _sprite;
+#pragma mark Entity - Memmory Management
 
-#pragma mark Entity - Alloc, Init, and Dealloc
++(Entity*) entity
+{
+    return [[[self alloc] init] autorelease];
+}
 
--(id) initWithName:(NSString*)name position:(CGPoint)position rotation:(float)rotation
+-(id) init
 {
     if ((self = [super init])) {
-        
-        _entityDef = [[EntityDef entityDefWithName:name] retain];
-        
-        _sprite = [[CCSprite spriteWithSpriteFrameName:_entityDef.spriteFrameName] retain];
-        _sprite.position = position;
-        _sprite.rotation = rotation;
-        _sprite.anchorPoint = ccp(0.5, 0.5);
-        
-        [self createBody:position rotation:rotation];
+        _state = kEntityStateNone;
+        _components = [[CCArray array] retain];
+        _componentTypes = kComponentTypeNone;
     }
     return self;
 }
 
 -(void) dealloc
 {
-    if (_body != nil) {
-        b2World* world = [[GameScene sharedGameScene] world];
-        world->DestroyBody(_body);
+    if (_components) {
+        [_components removeAllObjects];
+        [_components release];
     }
-    
-    [_entityDef release];
-    [_sprite release];
     [super dealloc];
 }
 
-#pragma mark Entity - Phsysics Body
+#pragma mark Entity - Component Management
 
--(void) createBody:(CGPoint)position rotation:(float)rotation
+-(Component*) getComponentByType:(ComponentType)type
 {
-    // Create body def
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(position.x/PTM_RATIO, position.y/PTM_RATIO);
-    bodyDef.angle = CC_DEGREES_TO_RADIANS(rotation);
-    bodyDef.userData = self;
+    if ([self hasComponenType:type])
+    {
+        Component* c;
+        CCARRAY_FOREACH(_components, c) {
+            if (c.type == type)
+                return c;
+        }
+    }
+    return nil;
+}
+
+-(bool) hasComponenType:(ComponentType)type
+{
+    return ((_componentTypes & type) == type);
+}
+
+-(void) addComponent:(Component*)component
+{
+    NSAssert(![self hasComponenType:component.type], @"Failed to add component. Entity has a component of same type already!");
     
-    // Create body
-    b2World* world = [[GameScene sharedGameScene] world];
-    _body = world->CreateBody(&bodyDef);
-    _body->SetAngularDamping(_entityDef.angularDampening);
-    _body->SetLinearDamping(_entityDef.linearDampening);
-    
-    // Create body shape
-    b2PolygonShape entityShape;
-    entityShape.SetAsBox(_sprite.contentSize.width/PTM_RATIO/2, 
-                         _sprite.contentSize.height/PTM_RATIO/2);
-    
-    // Create shape definition
-    b2FixtureDef entityShapeDef;
-    entityShapeDef.shape = &entityShape;
-    entityShapeDef.density = _entityDef.density;
-    entityShapeDef.friction = _entityDef.friction;
-    entityShapeDef.restitution = _entityDef.restituion;
-    
-    _body->CreateFixture(&entityShapeDef); 
+    [_components addObject:component];
+    _componentTypes |= component.type;
+}
+
+-(void) insertComponent:(Component*)component atIndex:(int)index
+{
+    NSAssert(![self hasComponenType:component.type], @"Failed to insert component. Entity has a component of same type already!");
+
+    [_components insertObject:component atIndex:index];
+    _componentTypes |= component.type;
+}
+
+-(void) removeComponent:(Component*)component
+{
+    [_components removeObject:component];
+    _componentTypes &= ~component.type;
+}
+
+-(void) bindComponents
+{
+    Component* c;
+    CCARRAY_FOREACH(_components, c) {
+        [c bind];
+    }
+}
+
+#pragma mark Entity - Life Cycle
+
+-(void) spawnEntityWithPosition:(CGPoint)position rotation:(float)rotation
+{
+    _position = position;
+    _rotation = rotation;
+    _state = kEntityStateSpawning;
+}
+
+-(void) despawnEntity
+{
+    _state = kEntityStateDespawning;
 }
 
 #pragma mark Entity - Step
 
--(void) step:(ccTime) dt
+-(void) step:(ccTime)dt
 {
-    if (_body != nil) {
-        _sprite.rotation = -1 * CC_RADIANS_TO_DEGREES(_body->GetAngle());
-        _sprite.position = ccp(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO);    
+    if (_state == kEntityStateNone) return;
+    
+    if (_components) {
+        Component* c;
+        CCARRAY_FOREACH(_components, c) {
+            [c update:dt state:_state];
+        }
     }
-}
-
--(void) beginContactWithEntity:(Entity*)entity manifold:(b2Manifold*)manifold
-{
-}
-
-
--(void) endContactWithEntity:(Entity*)entity manifold:(b2Manifold*)manifold
-{
+    
+    switch (_state) {
+        case kEntityStateSpawning:
+            _state = kEntityStateActive;
+            break;
+            
+        case kEntityStateDespawning:
+            _state = kEntityStateNone;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

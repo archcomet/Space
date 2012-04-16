@@ -8,8 +8,10 @@
 
 #import "InputLayer.h"
 #import "GameScene.h"
+#import "PlayerComponent.h"
 
 @implementation InputLayer
+@synthesize playerComponent = _playerComponent;
 
 -(id) init
 {
@@ -21,13 +23,14 @@
 
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    for( UITouch *touch in touches )
-    {
-        CGPoint location = [touch locationInView: [touch view]];
-        location = [[CCDirector sharedDirector] convertToGL:location];
-        location = [[GameScene sharedGameScene] convertGLToWorldSpace:location];
-        
-        [[[GameScene sharedGameScene] playerController] respondToTouchLocation:location];
+    if (_playerComponent) {
+        for( UITouch *touch in touches )
+        {
+            CGPoint location = [touch locationInView: [touch view]];
+            location = [[CCDirector sharedDirector] convertToGL:location];
+            location = [[GameScene sharedGameScene] convertGLToWorldSpace:location];
+            [_playerComponent respondToTouchLocation:location];
+        }
     }
 }
 
@@ -38,8 +41,7 @@
         CGPoint location = [touch locationInView: [touch view]];
         location = [[CCDirector sharedDirector] convertToGL:location];
         location = [[GameScene sharedGameScene] convertGLToWorldSpace:location];
-        
-        [[[GameScene sharedGameScene] playerController] respondToTouchLocation:location];
+        [_playerComponent respondToTouchLocation:location];
     }
 }
 

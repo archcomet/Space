@@ -15,13 +15,29 @@
 #define PTM_RATIO 16
 
 typedef enum {
-    kSteeringBehaviorIdle,
-    kSteeringBehaviorCruise,
-    kSteeringBehaviorWander,
-    kSteeringBehaviorSeekTarget,
-    kSteeringBehaviorPursueEntity,
-    kSteeringBehaviorPursueEntityOffset,
-    kSteeringBehaviorFleeTarget,
-    kSteeringBehaviorEvadeEntity
-} SteeringBehavior;
+    kEntityStateNone,
+    kEntityStateSpawning,
+    kEntityStateActive,
+    kEntityStateDespawning
+} EntityState;
 
+typedef enum {
+    kComponentTypeNone      = 0,
+    kComponentTypeBody      = 0x01, //2^0
+    kComponentTypeSprite    = 0x02, //2^1
+    kComponentTypeVehicle   = 0x04, //2^2
+    kComponentTypeContrail  = 0x08, //2^3
+    kComponentTypeAIShip    = 0x10, //2^4
+    kComponentTypePlayer    = 0x20  //2^5
+} ComponentType;
+
+typedef enum {
+    kVehicleBehaviorIdle,
+    kVehicleBehaviorCruise,
+    kVehicleBehaviorWander,
+    kVehicleBehaviorSeekTarget,
+    kVehicleBehaviorPursueTarget,
+    kVehicleBehaviorPursueTargetOffset,
+    kVehicleBehaviorFleeTarget,
+    kVehicleBehaviorEvadeTarget
+} VehicleBehavior;

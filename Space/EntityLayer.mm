@@ -11,6 +11,8 @@
 
 @implementation EntityLayer
 
+#pragma mark EntityLayer - Memory Management
+
 +(EntityLayer*) entityLayerWithFile:(NSString*)file
 {
     return [[[EntityLayer alloc] initWithFile:file] autorelease];
@@ -21,6 +23,8 @@
     if ((self = [super init]))
     {
         _spriteBatch = [[CCSpriteBatchNode batchNodeWithFile:file] retain];
+        _winSize = [[CCDirector sharedDirector] winSize];
+        
         [self addChild:_spriteBatch z:0];
 
     }
@@ -33,44 +37,34 @@
     [super dealloc];
 }
 
--(void)addEntity:(Entity *)entity
+#pragma mark EntityLayer - Node Management
+
+-(void) addBatchSprite:(CCSprite*)sprite z:(int)z
 {
-    [_spriteBatch addChild:entity.sprite];
+    [_spriteBatch addChild:sprite z:z];
 }
 
--(void)addEntity:(Entity *)entity z:(NSInteger)z
+-(void) addNode:(CCNode*)node z:(int)z
 {
-    [_spriteBatch addChild:entity.sprite z:z];
+    [self addChild:node z:z];
 }
 
--(void)addEntity:(Entity *)entity z:(NSInteger)z tag:(NSInteger)tag
+-(void) removeBatchSprite:(CCSprite*)sprite
 {
-    [_spriteBatch addChild:entity.sprite z:z tag:tag];
+    [_spriteBatch removeChild:sprite cleanup:true];
 }
 
--(void)removeAllEntitiesWithCleanup:(BOOL)cleanup
+-(void) removeNode:(CCNode*)node
 {
-    [_spriteBatch removeAllChildrenWithCleanup:cleanup];
+    [self removeChild:node cleanup:true];
 }
 
--(void)removeEntity:(Entity *)entity cleanup:(BOOL)cleanup
-{
-    [_spriteBatch removeChild:entity.sprite cleanup:cleanup];
-}
+#pragma mark Entitylayer - Update Position
 
--(void)removeEntityByTag:(NSInteger)tag cleanup:(BOOL)cleanup
+-(void) updatePosition:(CGPoint)position
 {
-    [_spriteBatch removeChildByTag:tag cleanup:cleanup];
-}
-
--(void) visit
-{
-    CGPoint position = [[GameScene sharedGameScene] cameraPosition];
-    CGSize winSize = [[CCDirector sharedDirector] winSize];
-    CGPoint centerOfScreen = ccp(winSize.width * 0.5, winSize.height * 0.5);
+    CGPoint centerOfScreen = ccp(_winSize.width * 0.5, _winSize.height * 0.5);
     self.position = ccpSub(centerOfScreen, position);
-    
-    [super visit];
 }
 
 @end

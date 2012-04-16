@@ -6,16 +6,23 @@
 //  Copyright (c) 2012 none. All rights reserved.
 //
 
-#import "Controller.h"
 #import "Entity.h"
+#import "EntityLayer.h"
+#import "BackgroundLayer.h"
 
-@interface CameraController : Controller {
+@interface CameraController : NSObject {
 
-    Entity* _trackedEntity;
+    CGPoint _position;
+    Entity* _entity;
+
+    EntityLayer* _entityLayer;
+    BackgroundLayer* _backgroundLayer;
 }
 
-@property (readwrite, nonatomic, assign) Entity* trackedEntity;
+@property (readwrite, nonatomic) CGPoint position;
 
-+(CameraController*) cameraControllerWithTrackedEntity:(Entity*)entity;
++(CameraController*) cameraController;
+-(void) trackEntity:(Entity*)entity;
+-(void) step:(ccTime)dt;
 
 @end

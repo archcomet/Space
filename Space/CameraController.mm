@@ -10,19 +10,46 @@
 #import "GameScene.h"
 
 @implementation CameraController
+@synthesize position = _position;
 
-@synthesize trackedEntity = _trackedEntity;
+#pragma mark CameraController - Memory Management
 
-+(CameraController*) cameraControllerWithTrackedEntity:(Entity*)entity
++(CameraController*) cameraController
 {
-    CameraController* c = [[[self alloc] init] autorelease];
-    c.trackedEntity = entity;
-    return c;
+    return [[[self alloc] init] autorelease];
 }
 
--(void)step:(ccTime)dt
+-(id) init
 {
-    [GameScene sharedGameScene].cameraPosition = _trackedEntity.sprite.position;
+    if ((self = [super init]))
+    {
+        _entity = nil;
+        _position = ccp(0, 0);
+        
+        GameScene* scene = [GameScene sharedGameScene];
+        _entityLayer = scene.entityLayer;
+        _backgroundLayer = scene.backgroundLayer;
+    }
+    return self;
+}
+
+#pragma mark CameraController - Track Entity
+
+-(void) trackEntity:(Entity*)entity
+{
+    _entity = entity;
+}
+
+#pragma mark CameraController - Step
+
+-(void) step:(ccTime)dt
+{
+    if (_entity != nil && _entity.state != kEntityStateNone) {
+        _position = _entity.position;
+    }
+    
+    [_entityLayer updatePosition:_position];
+    [_backgroundLayer updatePosition:_position];
 }
 
 @end

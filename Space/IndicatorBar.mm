@@ -12,6 +12,7 @@
 -(void) refreshVertices;
 -(void) refreshHorizontalVerticesWithPercent:(float)percent origin:(ccVertex2F)origin maxPoint:(ccVertex2F)maxPoint;
 -(void) refreshVerticalVerticesWithPercent:(float)percent origin:(ccVertex2F)origin maxPoint:(ccVertex2F)maxPoint;
+-(void) refreshBlendFunc;
 @end
 
 @implementation IndicatorBar
@@ -41,7 +42,7 @@
 -(id) init {
     if ((self = [super init])) {
         // Default visible to false. 
-        // Recommend setting shape and value properties before setting visible to true.
+        // Recommend setting bar properties before setting visible to true.
         [self setVisible:false];
         
         // Defaulf values
@@ -60,7 +61,7 @@
         memset(_backgroundVertices, 0, sizeof(_backgroundVertices));
         memset(_boarderVertices, 0, sizeof(_boarderVertices));
         _boarderColor = (ccColor4B) { 0, 0, 0, 0 };
-        
+        _useBlendFunc = true;
         _renderBar = false;
         _renderDivider = false;
         _renderBackground = false;
@@ -70,12 +71,15 @@
 
 #pragma mark IndicatorBar - Property Overrides
 
-// If the node is visible then changing shape or value properties will refresh the vertices.
-// If the node is NOT visible then changing shape or value properties will NOT refresh the vertices.
+// If the node is visible then changing bar properties will refresh the vertices.
+// If the node is NOT visible then changing bar properties will NOT refresh the vertices.
 // Setting visible to true will refresh the vertices
 -(void) setVisible:(BOOL)visible {
     [super setVisible:visible];
-    if (self.visible) [self refreshVertices];
+    if (self.visible) {
+        [self refreshBlendFunc];
+        [self refreshVertices];
+    }
 }
 
 #pragma mark IndicatorBar - Shape Properties
@@ -149,33 +153,60 @@
 }
 
 -(void) setBarStartColor:(ccColor4B)color {
+    bool alphaChanged = (_barColors[0].a == color.a);
     _barColors[0] = color;
     _barColors[1] = color;
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
 }
 
 -(void) setBarEndColor:(ccColor4B)color {
+    bool alphaChanged = (_barColors[2].a == color.a);
     _barColors[2] = color;
     _barColors[3] = color;
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
 }
 
 -(void) setDividerStartColor:(ccColor4B)color {
+    bool alphaChanged = (_dividerColors[0].a == color.a);
     _dividerColors[0] = color;
     _dividerColors[1] = color;
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
 }
 
 -(void) setDividerEndColor:(ccColor4B)color {
+    bool alphaChanged = (_dividerColors[2].a == color.a);
     _dividerColors[2] = color;
     _dividerColors[3] = color;
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
 }
 
 -(void) setBackgroundStartColor:(ccColor4B)color {
+    bool alphaChanged = (_backgroundColors[0].a == color.a);
     _backgroundColors[0] = color;
     _backgroundColors[1] = color;
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
 }
 
 -(void) setBackgroundEndColor:(ccColor4B)color {
+    bool alphaChanged = (_backgroundColors[2].a == color.a);
     _backgroundColors[2] = color;
-    _backgroundColors[3] = color;    
+    _backgroundColors[3] = color; 
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
+}
+
+-(void) setBoarderColor:(ccColor4B)boarderColor {
+    bool alphaChanged = (_boarderColor.a == boarderColor.a);
+    _boarderColor = boarderColor;
+    if (alphaChanged && self.visible) [self refreshBlendFunc];
+}
+
+#pragma mark IndicatorBar - Refresh Blend Function
+
+-(void) refreshBlendFunc {
+    _useBlendFunc = _barColors[0].a < 255 || _barColors[2].a < 255 ||
+                    _dividerColors[0].a < 255 || _dividerColors[2].a < 255 ||
+                    _backgroundColors[0].a < 255 || _backgroundColors[2].a < 255 ||
+                    (_boarderWidth > 0 && _boarderColor.a < 255);
 }
 
 #pragma mark IndicatorBar - Refresh Vertices
@@ -322,8 +353,8 @@
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
     // Enabled blend function
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+    if (_useBlendFunc) glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
     // Draw background
     if (_renderBackground) {
         glVertexPointer(2, GL_FLOAT, 0, _backgroundVertices);
@@ -356,7 +387,7 @@
     }
 
     // Disable blend functions
-    glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+    if (_useBlendFunc) glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
     
     // Restore default states for Cocos2d
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

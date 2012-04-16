@@ -7,10 +7,9 @@
 //
 
 #import "GameScene.h"
-#import "AIShipController.h"
-#import "Ship.h"
-
 #import "TestRenderIndicatorBar.h"
+#import "PlayerComponent.h"
+#import "AIShipComponent.h"
 
 @interface GameScene (Hidden)
 -(void) startScene;
@@ -21,13 +20,13 @@
 @end
 
 @implementation GameScene
-
 @synthesize world = _world;
+@synthesize player = _player;
 @synthesize entityLayer = _entityLayer;
-@synthesize playerController = _playerController;
-@synthesize cameraPosition = _cameraPosition;
+@synthesize backgroundLayer = _backgroundLayer;
+@synthesize cameraController = _cameraController;
 
-#pragma mark GameScene - Alloc, Init, and Dealloc
+#pragma mark GameScene - Memory Management
 
 +(GameScene*) sharedGameScene
 {
@@ -75,9 +74,9 @@
 
 -(void) createLayers
 {
-    _backgroundLayer = [[BackgroundLayer backgoundLayer] retain];
-    _entityLayer = [[EntityLayer entityLayerWithFile:@"SpaceShips.png"] retain];  
-    _inputLayer = [[InputLayer node] retain];
+    _backgroundLayer = [BackgroundLayer backgoundLayer];
+    _entityLayer = [EntityLayer entityLayerWithFile:@"SpaceShips.png"];  
+    _inputLayer = [InputLayer node];
     
     [self addChild:_backgroundLayer z:0];
     [self addChild:_entityLayer z:10];
@@ -87,61 +86,47 @@
 -(void) createEntitiesAndControllers
 {
     _entities = [[CCArray array] retain];
-    _controllers = [[CCArray array] retain];
+    _entityFactory = [[EntityFactory entityFactor] retain];
     
-    Ship* player = [[Ship shipWithName:@"AssaultFighter1" position:ccp(0, 0) rotation:0] retain];
-    Ship* aiShip = [[Ship shipWithName:@"HeavyCruiser2" position:ccp(300, 180) rotation:0] retain];
+    Entity* player = [_entityFactory loadEntityWithName:@"AssaultFighter1"];
+    Entity* aiShip = [_entityFactory loadEntityWithName:@"HeavyCruiser2"];
     
-    _cameraController = [[CameraController cameraControllerWithTrackedEntity:player] retain];
-    _playerController = [[PlayerController playerControllerWithShip:player] retain];
-    AIShipController* aiShipController = [[AIShipController aiShipControllerWithShip:aiShip] retain];
+    [_entities addObject:player];
+    [_entities addObject:aiShip];
     
-    [self addEntity:player];
-    [self addEntity:aiShip];
-    [self addController:_cameraController];
-    [self addController:_playerController];
-    [self addController:aiShipController];
+    AIShipComponent* aiShipComponent = [AIShipComponent aiShipComponentWithEntity:aiShip];
+    [aiShip addComponent:aiShipComponent];
+    [aiShipComponent bind];
     
-    [self setCameraPosition:player.sprite.position];
+    PlayerComponent* playerComponent = [PlayerComponent playerComponentWithEntity:player];
+    [player addComponent:playerComponent];
+    [playerComponent bind];
+    
+    [player spawnEntityWithPosition:ccp(0,0) rotation:0];
+    [aiShip spawnEntityWithPosition:ccp(300,180) rotation:0];
+    
+    _player = player;
+    _inputLayer.playerComponent = playerComponent;
+    
+    _cameraController = [[CameraController cameraController] retain];    
+    [_cameraController trackEntity:player];
+    [_cameraController setPosition:player.position];
 }
 
 -(void) dealloc
 {
     [self unschedule: @selector(update:)];    
         
-    Entity* entity;
-    CCARRAY_FOREACH(_entities, entity) {
-        [entity release];
-    }
-    
-    Controller* controller;
-    CCARRAY_FOREACH(_controllers, controller) {
-        [controller release];
-    }
-
+    [_entities removeAllObjects];
     [_entities release];
-    [_controllers release];
-    [_entityLayer release];
-    [_inputLayer release];
+    [_entityFactory release];
+    [_cameraController release];
     
     delete _contactListener;
     delete _world;
     
     [self removeAllChildrenWithCleanup:true];
     [super dealloc];
-}
-
-#pragma mark GameScene - Add Objects
-
--(void) addEntity:(Entity*)entity
-{
-    [_entities addObject:entity];
-    [_entityLayer addEntity:entity];
-}
-
--(void) addController:(Controller*)controller
-{
-    [_controllers addObject:controller];
 }
 
 #pragma mark GameScene - Transforms
@@ -163,15 +148,12 @@
 
         _world->Step(fixedTimeStep, 10, 10);
         
-        Controller* controller;
-        CCARRAY_FOREACH(_controllers, controller) { 
-            [controller step:fixedTimeStep]; 
-        }
-        
         Entity* entity;
         CCARRAY_FOREACH(_entities, entity) { 
             [entity step:fixedTimeStep]; 
         }
+        
+        [_cameraController step:fixedTimeStep];
         
         timeToRun -= fixedTimeStep;
     }

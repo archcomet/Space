@@ -9,5 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@interface InputLayer : CCLayer 
+@class PlayerComponent;
+
+@interface InputLayer : CCLayer {
+    PlayerComponent* _playerComponent;
+}
+
+@property (readwrite, nonatomic, assign) PlayerComponent* playerComponent;
+
 @end
