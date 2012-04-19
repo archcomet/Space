@@ -22,7 +22,8 @@
 @property  (readwrite, nonatomic, assign) Entity* entity;
 
 -(id) initWithEntity:(Entity*)entity type:(ComponentType)type;
--(void) bind;
+-(void) refresh;
+-(void) destroy;
 -(void) update:(ccTime)dt state:(EntityState)state;
 
 @end

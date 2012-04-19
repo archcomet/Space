@@ -38,12 +38,22 @@
     [super dealloc];
 }
 
-#pragma mark ContrailComponent - Bind Components
+#pragma mark ContrailComponent - Refresh Component
 
--(void) bind
+-(void) refresh
 {
     _vehicleComponent = (VehicleComponent*)[_entity getComponentByType:kComponentTypeVehicle];
     _bodyComponent = (BodyComponent*)[_entity getComponentByType:kComponentTypeBody];
+}
+
+#pragma mark ContrailComponent - Destroy Component
+
+-(void) destroy
+{
+    CCNode* parent = [_contrail parent];
+    if (parent != nil) {
+        [parent removeChild:_contrail cleanup:true];
+    }
 }
 
 #pragma mark ContrailComponent - Update Component

@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 #import "Box2D.h"
-#import "Entity.h"
 #import "ContactListener.h"
-#import "CameraController.h"
+#import "EntityFactory.h"
+#import "Camera.h"
+#import "Entity.h"
 #import "BackgroundLayer.h"
 #import "EntityLayer.h"
 #import "InputLayer.h"
-#import "EntityFactory.h"
 
 @interface GameScene : CCScene {
 
@@ -26,20 +26,16 @@
     EntityLayer* _entityLayer;
     InputLayer* _inputLayer;
 
-    CameraController* _cameraController;
-    
+    Camera* _gameCamera;
     EntityFactory* _entityFactory;
-    CCArray* _entities;
-    Entity* _player;
 }
 
 +(GameScene*) sharedGameScene;
 
 @property (readonly, nonatomic) b2World* world;
-@property (readonly, nonatomic) Entity* player;
 @property (readonly, nonatomic) EntityLayer* entityLayer;
 @property (readonly, nonatomic) BackgroundLayer* backgroundLayer;
-@property (readonly, nonatomic) CameraController* cameraController;
+@property (readonly, nonatomic) Camera* gameCamera;
 
 -(CGPoint) convertGLToWorldSpace:(CGPoint)glLocation;
 

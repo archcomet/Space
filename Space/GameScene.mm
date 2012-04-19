@@ -8,8 +8,6 @@
 
 #import "GameScene.h"
 #import "TestRenderIndicatorBar.h"
-#import "PlayerComponent.h"
-#import "AIShipComponent.h"
 
 @interface GameScene (Hidden)
 -(void) startScene;
@@ -17,32 +15,30 @@
 -(void) createSpriteFrameCache;
 -(void) createLayers;
 -(void) createEntitiesAndControllers;
+-(void) endScene;
 @end
 
 @implementation GameScene
 @synthesize world = _world;
-@synthesize player = _player;
 @synthesize entityLayer = _entityLayer;
 @synthesize backgroundLayer = _backgroundLayer;
-@synthesize cameraController = _cameraController;
+@synthesize gameCamera = _gameCamera;
 
 #pragma mark GameScene - Memory Management
 
 +(GameScene*) sharedGameScene
 {
     static GameScene *sharedGameScene;
-    
-    @synchronized(self)
-    {
-        if (!sharedGameScene)
-        {
+    @synchronized(self) {
+        if (!sharedGameScene) {
             sharedGameScene = [[self alloc] init];
             [sharedGameScene startScene];
         }
-        
         return sharedGameScene;
     }
 }
+
+#pragma mark GameScene - Start Scene
 
 -(void) startScene
 {    
@@ -85,48 +81,29 @@
 
 -(void) createEntitiesAndControllers
 {
-    _entities = [[CCArray array] retain];
-    _entityFactory = [[EntityFactory entityFactor] retain];
+    _entityFactory = [EntityFactory sharedEntityFactory];
     
-    Entity* player = [_entityFactory loadEntityWithName:@"AssaultFighter1"];
-    Entity* aiShip = [_entityFactory loadEntityWithName:@"HeavyCruiser2"];
-    
-    [_entities addObject:player];
-    [_entities addObject:aiShip];
-    
-    AIShipComponent* aiShipComponent = [AIShipComponent aiShipComponentWithEntity:aiShip];
-    [aiShip addComponent:aiShipComponent];
-    [aiShipComponent bind];
-    
-    PlayerComponent* playerComponent = [PlayerComponent playerComponentWithEntity:player];
-    [player addComponent:playerComponent];
-    [playerComponent bind];
+    Entity* player = [_entityFactory createEntityWithName:@"AssaultFighter1" category:kEntityCategoryPlayer];
+    Entity* aiShip = [_entityFactory createEntityWithName:@"HeavyCruiser2" category:kEntityCategoryHostile];
     
     [player spawnEntityWithPosition:ccp(0,0) rotation:0];
     [aiShip spawnEntityWithPosition:ccp(300,180) rotation:0];
     
-    _player = player;
-    _inputLayer.playerComponent = playerComponent;
+    [_inputLayer setControlledEntity:player];
     
-    _cameraController = [[CameraController cameraController] retain];    
-    [_cameraController trackEntity:player];
-    [_cameraController setPosition:player.position];
+    _gameCamera = [[Camera camera] retain];    
+    [_gameCamera trackEntity:player];
+    [_gameCamera setPosition:player.position];
 }
 
--(void) dealloc
+-(void) endScene
 {
-    [self unschedule: @selector(update:)];    
-        
-    [_entities removeAllObjects];
-    [_entities release];
-    [_entityFactory release];
-    [_cameraController release];
-    
     delete _contactListener;
     delete _world;
     
+    [_gameCamera release];
+    [self unschedule: @selector(update:)];    
     [self removeAllChildrenWithCleanup:true];
-    [super dealloc];
 }
 
 #pragma mark GameScene - Transforms
@@ -147,13 +124,21 @@
     while (timeToRun >= fixedTimeStep) {
 
         _world->Step(fixedTimeStep, 10, 10);
+        for(b2Body *b = _world->GetBodyList(); b; b=b->GetNext()) {    
+            if (b->GetUserData() != NULL) {
+                Entity *entity = (Entity*)b->GetUserData(); 
+                b2Vec2 position = b->GetPosition();
+                entity.position = ccp(position.x * PTM_RATIO, position.y * PTM_RATIO);
+                entity.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+            } 
+        }
         
         Entity* entity;
-        CCARRAY_FOREACH(_entities, entity) { 
+        CCARRAY_FOREACH(_entityFactory.entities, entity) { 
             [entity step:fixedTimeStep]; 
         }
         
-        [_cameraController step:fixedTimeStep];
+        [_gameCamera step:fixedTimeStep];
         
         timeToRun -= fixedTimeStep;
     }

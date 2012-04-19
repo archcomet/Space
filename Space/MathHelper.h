@@ -37,3 +37,11 @@ b2Vec2 inline truncateVector(b2Vec2 vec, float maxLength)
     }
     return vec;
 }
+
+b2AABB inline makeAABB(b2Vec2 center, float hx, float hy)
+{
+    b2AABB aabb;
+    aabb.lowerBound = b2Vec2( center.x - hx, center.y - hy );
+    aabb.upperBound = b2Vec2( center.x + hx, center.y + hy );
+    return aabb;
+}

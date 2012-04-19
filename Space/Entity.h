@@ -17,17 +17,21 @@
     
     // Public members
     EntityState _state;
+    EntityCategory _category;
+    unsigned short _foeMaskBits;
     CGPoint _position;
     float _rotation;
-    
+
     // Private members
     CCArray* _components;
-    int _componentTypes;
+    unsigned short _componentTypes;
 }
 
 @property (readwrite, nonatomic) EntityState state;
 @property (readwrite, nonatomic) CGPoint position;
 @property (readwrite, nonatomic) float rotation;
+@property (readwrite, nonatomic) EntityCategory category;
+@property (readonly, nonatomic) unsigned short foeMaskBits;
 
 +(Entity*) entity;
 -(Component*) getComponentByType:(ComponentType)type;
@@ -35,7 +39,8 @@
 -(void) addComponent:(Component*)component;
 -(void) insertComponent:(Component*)component atIndex:(int)index;
 -(void) removeComponent:(Component*)component;
--(void) bindComponents;
+-(void) refreshComponents;
+-(void) destroyComponents;
 -(void) spawnEntityWithPosition:(CGPoint)position rotation:(float)rotation;
 -(void) despawnEntity;
 -(void) step:(ccTime)dt;

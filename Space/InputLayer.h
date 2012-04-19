@@ -9,12 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "cocos2d.h"
 
-@class PlayerComponent;
+@class ControllerComponent;
+@class Entity;
 
 @interface InputLayer : CCLayer {
-    PlayerComponent* _playerComponent;
+    ControllerComponent* _controller;
+    Entity* _entity;
 }
 
-@property (readwrite, nonatomic, assign) PlayerComponent* playerComponent;
+-(void) setControlledEntity:(Entity*)entity;
 
 @end

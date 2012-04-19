@@ -22,9 +22,14 @@
     return self;
 }
 
--(void) bind
+-(void) refresh
 {
     // Set pointers to other components in this method
+}
+
+-(void) destroy
+{
+    // Called when the component is destroyed
 }
 
 -(void) update:(ccTime)dt state:(EntityState)state

@@ -9,11 +9,14 @@
 #import "Entity.h"
 #import "GameScene.h"
 #import "Component.h"
+#import "Callbacks.h"
 
 @implementation Entity
 @synthesize state = _state;
 @synthesize position = _position;
 @synthesize rotation = _rotation;
+@synthesize category = _category;
+@synthesize foeMaskBits = _foeMaskBits;
 
 #pragma mark Entity - Memmory Management
 
@@ -28,16 +31,14 @@
         _state = kEntityStateNone;
         _components = [[CCArray array] retain];
         _componentTypes = kComponentTypeNone;
+        [self setCategory:kEntityCategoryNone];
     }
     return self;
 }
 
 -(void) dealloc
 {
-    if (_components) {
-        [_components removeAllObjects];
-        [_components release];
-    }
+    [_components release];
     [super dealloc];
 }
 
@@ -83,11 +84,19 @@
     _componentTypes &= ~component.type;
 }
 
--(void) bindComponents
+-(void) refreshComponents
 {
     Component* c;
     CCARRAY_FOREACH(_components, c) {
-        [c bind];
+        [c refresh];
+    }
+}
+
+-(void) destroyComponents
+{
+    Component* c;
+    CCARRAY_FOREACH(_components, c) {
+        [c destroy];
     }
 }
 
@@ -103,6 +112,14 @@
 -(void) despawnEntity
 {
     _state = kEntityStateDespawning;
+}
+
+#pragma mark Entity - Category
+
+-(void) setCategory:(EntityCategory)category
+{
+    _category = category;
+    _foeMaskBits = getEntityFoeMaskForCategory(category);
 }
 
 #pragma mark Entity - Step

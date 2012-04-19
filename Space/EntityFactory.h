@@ -10,10 +10,16 @@
 #import "Entity.h"
 
 @interface EntityFactory : NSObject {
-    NSDictionary* _entityData;\
+    
+    NSDictionary* _entityData;
+    CCArray* _entities;
 }
 
-+(EntityFactory*) entityFactor;
--(Entity*) loadEntityWithName:(NSString*)name;
+@property (readonly, nonatomic) CCArray* entities;
+
++(EntityFactory*) sharedEntityFactory;
+
+-(Entity*) createEntityWithName:(NSString*)name category:(EntityCategory)category;
+-(void) destroyEntity:(Entity*)entity;
 
 @end

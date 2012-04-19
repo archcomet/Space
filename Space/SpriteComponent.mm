@@ -27,6 +27,16 @@
     [super dealloc];
 }
 
+#pragma mark SpriteComponent - Destroy Component
+
+-(void) destroy
+{
+    CCNode* parent = [_sprite parent];
+    if (parent != nil) {
+        [parent removeChild:_sprite cleanup:true];
+    }
+}
+
 #pragma mark SpriteComponent - Update Component
 
 -(void) update:(ccTime)dt state:(EntityState)state

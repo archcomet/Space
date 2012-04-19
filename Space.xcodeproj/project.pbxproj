@@ -18,8 +18,9 @@
 		A55199F51537CC490040D13D /* ContrailComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A55199F41537CC490040D13D /* ContrailComponent.mm */; };
 		A55199F81537CC810040D13D /* Entity.mm in Sources */ = {isa = PBXBuildFile; fileRef = A55199F71537CC800040D13D /* Entity.mm */; };
 		A55199FB153813E20040D13D /* EntityFactory.mm in Sources */ = {isa = PBXBuildFile; fileRef = A55199FA153813E10040D13D /* EntityFactory.mm */; };
+		A586D7F3153FD01000E7A623 /* ControllerComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A586D7F2153FD00F00E7A623 /* ControllerComponent.mm */; };
 		A588BF4B15279E1800A3AE2E /* ContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = A588BF4A15279E1700A3AE2E /* ContactListener.mm */; };
-		A588BF511527B72100A3AE2E /* CameraController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A588BF501527B72000A3AE2E /* CameraController.mm */; };
+		A588BF511527B72100A3AE2E /* Camera.mm in Sources */ = {isa = PBXBuildFile; fileRef = A588BF501527B72000A3AE2E /* Camera.mm */; };
 		A588BF541527CD8D00A3AE2E /* Background.mm in Sources */ = {isa = PBXBuildFile; fileRef = A588BF531527CD8D00A3AE2E /* Background.mm */; };
 		A588BF5F15280CA600A3AE2E /* BackgroundLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A588BF5E15280CA600A3AE2E /* BackgroundLayer.mm */; };
 		A588BF671528A43E00A3AE2E /* StarField2.png in Resources */ = {isa = PBXBuildFile; fileRef = A588BF661528A43E00A3AE2E /* StarField2.png */; };
@@ -186,8 +187,6 @@
 		A5B237B915349A0B004CF2A8 /* IndicatorBar.mm in Sources */ = {isa = PBXBuildFile; fileRef = A5B237B815349A0B004CF2A8 /* IndicatorBar.mm */; };
 		A5B237BE15355264004CF2A8 /* TestRenderIndicatorBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A5B237BD15355264004CF2A8 /* TestRenderIndicatorBar.m */; };
 		A5B9DD46153B8AFE009658D1 /* BodyComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A5B9DD45153B8AFE009658D1 /* BodyComponent.mm */; };
-		A5B9DD4F153BE1C8009658D1 /* AIShipComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A5B9DD4E153BE1C7009658D1 /* AIShipComponent.mm */; };
-		A5B9DD52153BEBAA009658D1 /* PlayerComponent.mm in Sources */ = {isa = PBXBuildFile; fileRef = A5B9DD51153BEBAA009658D1 /* PlayerComponent.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -213,10 +212,13 @@
 		A55199F71537CC800040D13D /* Entity.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Entity.mm; sourceTree = "<group>"; };
 		A55199F9153813E10040D13D /* EntityFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityFactory.h; sourceTree = "<group>"; };
 		A55199FA153813E10040D13D /* EntityFactory.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EntityFactory.mm; sourceTree = "<group>"; };
+		A586D7F1153FD00F00E7A623 /* ControllerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ControllerComponent.h; sourceTree = "<group>"; };
+		A586D7F2153FD00F00E7A623 /* ControllerComponent.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ControllerComponent.mm; sourceTree = "<group>"; };
+		A586D7F8153FE64A00E7A623 /* Callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Callbacks.h; sourceTree = "<group>"; };
 		A588BF4915279E1700A3AE2E /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListener.h; sourceTree = "<group>"; };
 		A588BF4A15279E1700A3AE2E /* ContactListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ContactListener.mm; sourceTree = "<group>"; };
-		A588BF4F1527B72000A3AE2E /* CameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraController.h; sourceTree = "<group>"; };
-		A588BF501527B72000A3AE2E /* CameraController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CameraController.mm; sourceTree = "<group>"; };
+		A588BF4F1527B72000A3AE2E /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		A588BF501527B72000A3AE2E /* Camera.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Camera.mm; sourceTree = "<group>"; };
 		A588BF521527CD8D00A3AE2E /* Background.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Background.h; sourceTree = "<group>"; };
 		A588BF531527CD8D00A3AE2E /* Background.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Background.mm; sourceTree = "<group>"; };
 		A588BF5D15280CA600A3AE2E /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
@@ -550,10 +552,6 @@
 		A5B237BD15355264004CF2A8 /* TestRenderIndicatorBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestRenderIndicatorBar.m; sourceTree = "<group>"; };
 		A5B9DD44153B8AFE009658D1 /* BodyComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BodyComponent.h; sourceTree = "<group>"; };
 		A5B9DD45153B8AFE009658D1 /* BodyComponent.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BodyComponent.mm; sourceTree = "<group>"; };
-		A5B9DD4D153BE1C7009658D1 /* AIShipComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIShipComponent.h; sourceTree = "<group>"; };
-		A5B9DD4E153BE1C7009658D1 /* AIShipComponent.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AIShipComponent.mm; sourceTree = "<group>"; };
-		A5B9DD50153BEBA9009658D1 /* PlayerComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerComponent.h; sourceTree = "<group>"; };
-		A5B9DD51153BEBAA009658D1 /* PlayerComponent.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlayerComponent.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -575,11 +573,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A53AB0911516622D005CE3A2 /* Scenes and Layers */ = {
+		A53AB0911516622D005CE3A2 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
-				A590036614E2229A00CE265D /* GameScene.h */,
-				A590036714E2229A00CE265D /* GameScene.mm */,
 				A58D8939150EE25100377732 /* EntityLayer.h */,
 				A58D893A150EE25200377732 /* EntityLayer.mm */,
 				A53AB08515131763005CE3A2 /* InputLayer.h */,
@@ -587,22 +583,7 @@
 				A588BF5D15280CA600A3AE2E /* BackgroundLayer.h */,
 				A588BF5E15280CA600A3AE2E /* BackgroundLayer.mm */,
 			);
-			name = "Scenes and Layers";
-			sourceTree = "<group>";
-		};
-		A53AB09215166250005CE3A2 /* Game Objects */ = {
-			isa = PBXGroup;
-			children = (
-				A588BF4F1527B72000A3AE2E /* CameraController.h */,
-				A588BF501527B72000A3AE2E /* CameraController.mm */,
-				A588BF4915279E1700A3AE2E /* ContactListener.h */,
-				A588BF4A15279E1700A3AE2E /* ContactListener.mm */,
-				A55199F61537CC800040D13D /* Entity.h */,
-				A55199F71537CC800040D13D /* Entity.mm */,
-				A55199F9153813E10040D13D /* EntityFactory.h */,
-				A55199FA153813E10040D13D /* EntityFactory.mm */,
-			);
-			name = "Game Objects";
+			name = Layers;
 			sourceTree = "<group>";
 		};
 		A53AB09315166427005CE3A2 /* Common */ = {
@@ -612,6 +593,30 @@
 				A58D8928150A6C4D00377732 /* MathHelper.h */,
 			);
 			name = Common;
+			sourceTree = "<group>";
+		};
+		A586D7F4153FD36A00E7A623 /* Callbacks */ = {
+			isa = PBXGroup;
+			children = (
+				A586D7F8153FE64A00E7A623 /* Callbacks.h */,
+				A588BF4915279E1700A3AE2E /* ContactListener.h */,
+				A588BF4A15279E1700A3AE2E /* ContactListener.mm */,
+			);
+			name = Callbacks;
+			sourceTree = "<group>";
+		};
+		A586D7F5153FDB7A00E7A623 /* Game Objects */ = {
+			isa = PBXGroup;
+			children = (
+				A5B9DD53153C009E009658D1 /* Components */,
+				A53AB0911516622D005CE3A2 /* Layers */,
+				A590037614E240D300CE265D /* Nodes */,
+				A588BF4F1527B72000A3AE2E /* Camera.h */,
+				A588BF501527B72000A3AE2E /* Camera.mm */,
+				A55199F61537CC800040D13D /* Entity.h */,
+				A55199F71537CC800040D13D /* Entity.mm */,
+			);
+			name = "Game Objects";
 			sourceTree = "<group>";
 		};
 		A58E2621145FCDED00809D9C = {
@@ -651,13 +656,12 @@
 			children = (
 				A58E2801145FCDEF00809D9C /* Application */,
 				A53AB09315166427005CE3A2 /* Common */,
-				A5B9DD53153C009E009658D1 /* Components */,
-				A53AB09215166250005CE3A2 /* Game Objects */,
-				A590037614E240D300CE265D /* Nodes */,
-				A53AB0911516622D005CE3A2 /* Scenes and Layers */,
-				A5B237BB15355216004CF2A8 /* Tests */,
+				A596F999153E479C00CB1302 /* Singletons */,
+				A586D7F5153FDB7A00E7A623 /* Game Objects */,
+				A586D7F4153FD36A00E7A623 /* Callbacks */,
 				A58E2641145FCDED00809D9C /* Resources */,
 				A58E2655145FCDED00809D9C /* libs */,
+				A5B237BB15355216004CF2A8 /* Tests */,
 			);
 			path = Space;
 			sourceTree = "<group>";
@@ -1154,6 +1158,17 @@
 			name = Nodes;
 			sourceTree = "<group>";
 		};
+		A596F999153E479C00CB1302 /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				A590036614E2229A00CE265D /* GameScene.h */,
+				A590036714E2229A00CE265D /* GameScene.mm */,
+				A55199F9153813E10040D13D /* EntityFactory.h */,
+				A55199FA153813E10040D13D /* EntityFactory.mm */,
+			);
+			name = Singletons;
+			sourceTree = "<group>";
+		};
 		A5B237BB15355216004CF2A8 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1176,10 +1191,8 @@
 				A55199F11537CC330040D13D /* VehicleComponent.mm */,
 				A55199F31537CC490040D13D /* ContrailComponent.h */,
 				A55199F41537CC490040D13D /* ContrailComponent.mm */,
-				A5B9DD4D153BE1C7009658D1 /* AIShipComponent.h */,
-				A5B9DD4E153BE1C7009658D1 /* AIShipComponent.mm */,
-				A5B9DD50153BEBA9009658D1 /* PlayerComponent.h */,
-				A5B9DD51153BEBAA009658D1 /* PlayerComponent.mm */,
+				A586D7F1153FD00F00E7A623 /* ControllerComponent.h */,
+				A586D7F2153FD00F00E7A623 /* ControllerComponent.mm */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -1404,7 +1417,7 @@
 				A53AB08715131764005CE3A2 /* InputLayer.mm in Sources */,
 				A53AB0AA151782B2005CE3A2 /* Contrail.mm in Sources */,
 				A588BF4B15279E1800A3AE2E /* ContactListener.mm in Sources */,
-				A588BF511527B72100A3AE2E /* CameraController.mm in Sources */,
+				A588BF511527B72100A3AE2E /* Camera.mm in Sources */,
 				A588BF541527CD8D00A3AE2E /* Background.mm in Sources */,
 				A588BF5F15280CA600A3AE2E /* BackgroundLayer.mm in Sources */,
 				A5B237B915349A0B004CF2A8 /* IndicatorBar.mm in Sources */,
@@ -1416,8 +1429,7 @@
 				A55199F81537CC810040D13D /* Entity.mm in Sources */,
 				A55199FB153813E20040D13D /* EntityFactory.mm in Sources */,
 				A5B9DD46153B8AFE009658D1 /* BodyComponent.mm in Sources */,
-				A5B9DD4F153BE1C8009658D1 /* AIShipComponent.mm in Sources */,
-				A5B9DD52153BEBAA009658D1 /* PlayerComponent.mm in Sources */,
+				A586D7F3153FD01000E7A623 /* ControllerComponent.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

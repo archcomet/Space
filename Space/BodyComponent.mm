@@ -8,6 +8,8 @@
 
 #import "BodyComponent.h"
 #import "GameScene.h"
+#import "Callbacks.h"
+#import "MathHelper.h"
 
 @interface BodyComponent (Hidden)
 -(void) createBody;
@@ -31,8 +33,9 @@
     if ((self = [super initWithEntity:entity type:kComponentTypeBody]))
     {
         _body = nil;
-        _bodyDef = nil;
-        _fixtureDef = nil;
+        _bodyDef = new b2BodyDef();
+        _fixtureDef = new b2FixtureDef();
+        _fixtureDef->shape = new b2PolygonShape();
     }
     return self;
 }
@@ -52,14 +55,18 @@
     [super dealloc];
 }
 
+#pragma mark BodyComponent - Destroy Component
+
+- (void)destroy
+{
+    [self destroyBody];
+}
+
 #pragma mark BodyComponent - Update Component
 
 -(void) update:(ccTime)dt state:(EntityState)state
 {
     switch (state) {
-        case kEntityStateNone:
-            break;
-            
         case kEntityStateSpawning:
             [self createBody];
             break;
@@ -68,11 +75,7 @@
             [self destroyBody];
             break;
             
-        //case kEntityStateActive:
         default:
-            b2Vec2 position = _body->GetPosition();
-            _entity.position = ccp (position.x * PTM_RATIO, position.y * PTM_RATIO);
-            _entity.rotation = -1 * CC_RADIANS_TO_DEGREES(_body->GetAngle());
             break;
     }
 }
@@ -86,6 +89,9 @@
     CGPoint position = _entity.position;
     _bodyDef->position = b2Vec2(position.x/PTM_RATIO, position.y/PTM_RATIO);
     _bodyDef->angle = CC_DEGREES_TO_RADIANS(_entity.rotation);
+    _bodyDef->userData = _entity;
+    _fixtureDef->filter.categoryBits = _entity.category;
+    _fixtureDef->filter.maskBits = _entity.foeMaskBits;
     _body = [GameScene sharedGameScene].world->CreateBody(_bodyDef);
     _body->CreateFixture(_fixtureDef);
 }
@@ -94,6 +100,35 @@
 {
     if (_body != nil)
         [GameScene sharedGameScene].world->DestroyBody(_body);
+}
+
+#pragma mark Entity - Queries
+
+-(b2Body*) findNearestFoeWithinRange:(float)range
+{
+    QueryCallback callback = QueryCallback(_entity.category);
+    b2Vec2 position = _body->GetPosition();
+    b2AABB aabb = makeAABB(position, range/PTM_RATIO, range/PTM_RATIO);
+    
+    [GameScene sharedGameScene].world->QueryAABB(&callback, aabb);
+    
+    b2Body* nearestBody = NULL;
+    float nearestDistance = FLT_MAX;
+    
+    vector<b2Body*>::iterator it;
+    for (it = callback.foundBodies.begin(); it < callback.foundBodies.end(); it++)
+    {
+        b2Body* body = *it;
+        b2Vec2 vec = position - body->GetPosition();
+        float distance = vec.Length();
+        
+        if (distance < nearestDistance && distance < range) {
+            nearestBody = body;
+            nearestDistance = distance;
+        }
+    }
+    
+    return nearestBody;
 }
 
 @end

@@ -51,9 +51,9 @@
     return self;
 }
 
-#pragma mark VehicleComponent - Bind Components
+#pragma mark VehicleComponent - Refresh Component
 
--(void) bind
+-(void) refresh
 {
     _bodyComponent = (BodyComponent*)[_entity getComponentByType:kComponentTypeBody];
 }

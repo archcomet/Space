@@ -8,10 +8,10 @@
 
 #import "InputLayer.h"
 #import "GameScene.h"
-#import "PlayerComponent.h"
+#import "ControllerComponent.h"
+#import "Entity.h"
 
 @implementation InputLayer
-@synthesize playerComponent = _playerComponent;
 
 -(id) init
 {
@@ -21,27 +21,35 @@
     return self;
 }
 
+-(void) setControlledEntity:(Entity*)entity 
+{
+    _controller = (ControllerComponent*)[entity getComponentByType:kComponentTypeController];
+    [_controller setPlayerControlled:true];
+}
+
 -(void) ccTouchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (_playerComponent) {
+    if (_controller) {
         for( UITouch *touch in touches )
         {
             CGPoint location = [touch locationInView: [touch view]];
             location = [[CCDirector sharedDirector] convertToGL:location];
             location = [[GameScene sharedGameScene] convertGLToWorldSpace:location];
-            [_playerComponent respondToTouchLocation:location];
+            [_controller respondToTouchLocation:location];
         }
     }
 }
 
 -(void) ccTouchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    for( UITouch *touch in touches )
-    {
-        CGPoint location = [touch locationInView: [touch view]];
-        location = [[CCDirector sharedDirector] convertToGL:location];
-        location = [[GameScene sharedGameScene] convertGLToWorldSpace:location];
-        [_playerComponent respondToTouchLocation:location];
+    if (_controller) {
+        for( UITouch *touch in touches )
+        {
+            CGPoint location = [touch locationInView: [touch view]];
+            location = [[CCDirector sharedDirector] convertToGL:location];
+            location = [[GameScene sharedGameScene] convertGLToWorldSpace:location];
+            [_controller respondToTouchLocation:location];
+        }
     }
 }
 

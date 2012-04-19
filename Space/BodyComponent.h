@@ -23,4 +23,6 @@
 +(BodyComponent*) bodyComponentWithEntity:(Entity*)entity;
 -(id) initWithEntity:(Entity*)entity;
 
+-(b2Body*) findNearestFoeWithinRange:(float)range;
+
 @end
